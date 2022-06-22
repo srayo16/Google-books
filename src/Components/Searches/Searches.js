@@ -26,7 +26,7 @@ const Searches = () => {
     }
 
     return (
-        <div className='container mx-auto'>
+        <div className='container mx-auto mb-44 lg:mb-96'>
             <h1 className='text-neutral text-3xl  lg:text-4xl text-center font-bold my-5'>Search your books here</h1>
             <div>
                 <div class="form-control">

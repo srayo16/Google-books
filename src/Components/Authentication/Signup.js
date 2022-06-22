@@ -46,7 +46,7 @@ const Signup = () => {
     }
 
     return (
-        <div className='my-20'>
+        <div className='mt-20 mb-44'>
             <div class="hero my-h-screen bg-base-100">
                 <div class="hero-content flex-col lg:flex-row-reverse">
                     <div class="text-center lg:text-left w-25 ml-0 lg:ml-5 lg:w-96">

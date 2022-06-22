@@ -1,6 +1,6 @@
 import { useAuthState, useSendEmailVerification } from "react-firebase-hooks/auth";
 import auth from "../../Firebase.init";
-import { Navigate, useLocation } from 'react-router-dom';
+import { Navigate, useLocation, useNavigate } from 'react-router-dom';
 import React from 'react';
 import Loading from "../Loading/Loading";
 import { toast } from 'react-toastify';
@@ -9,6 +9,7 @@ const Requireauth = ({ children }) => {
     const [user, loading] = useAuthState(auth);
     const [sendEmailVerification, sending] = useSendEmailVerification(auth);
     let location = useLocation();
+    const navigate = useNavigate();
     if (loading || sending) {
         return <Loading></Loading>
     }
@@ -19,6 +20,7 @@ const Requireauth = ({ children }) => {
         // than dropping them off on the home page.
         return <Navigate to="/login" state={{ from: location }} replace />;
     }
+
     if (user.providerData[0]?.providerId === 'password' && !user.emailVerified) {
         return <div className='text-center mt-5 h-screen'>
             <h3 className='text-red-500 font-bold text-4xl'>Your Email is not verified!!</h3>

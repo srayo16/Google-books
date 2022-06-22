@@ -8,6 +8,9 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Searches from './Components/Searches/Searches';
 import Details from './Components/Details/Details';
+import Requireauth from './Components/Authentication/Requireauth';
+import Notfound from './Components/Notfound/Notfound';
+import Footer from './Components/Footer/Footer';
 
 function App() {
   return (
@@ -19,9 +22,11 @@ function App() {
         <Route path='/home' element={<Home></Home>}></Route>
         <Route path='/signup' element={<Signup></Signup>}></Route>
         <Route path='/login' element={<Login></Login>}></Route>
-        <Route path='/searches' element={<Searches></Searches>}></Route>
-        <Route path='/details/:id' element={<Details></Details>}></Route>
+        <Route path='/searches' element={<Requireauth><Searches></Searches></Requireauth>}></Route>
+        <Route path='/details/:id' element={<Requireauth><Details></Details></Requireauth>}></Route>
+        <Route path='*' element={<Notfound></Notfound>}></Route>
       </Routes>
+      <Footer></Footer>
       <ToastContainer />
     </>
   );

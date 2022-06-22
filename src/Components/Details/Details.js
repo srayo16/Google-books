@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import Loading from '../Loading/Loading';
+import { BiArrowBack } from 'react-icons/bi';
 
 const Details = () => {
     const { id } = useParams();
     const [singleDetail, setSingleDetail] = useState([]);
     const [expand, setExpand] = useState(false);
     const [isLoadings, setIsloadings] = useState(false);
+    const navigate = useNavigate();
 
     useEffect(() => {
         setIsloadings(true);
@@ -21,14 +23,20 @@ const Details = () => {
     if (isLoadings) {
         return <Loading></Loading>
     }
-    console.log(singleDetail);
+    // console.log(singleDetail);
+    // for go to back
+    const returnPage = () => {
+        navigate(-1);
+    }
+
     return (
-        <div className='mt-5 container mx-auto overflow-hidden'>
-            <div class="hero my-h-screen bg-base-100 ">
+        <div className='mt-5 container mx-auto overflow-hidden mb-44'>
+            <button class="btn btn-link text-primary-content" onClick={() => returnPage()}><BiArrowBack></BiArrowBack> Back</button>
+            <div class="hero my-h-screen bg-base-100">
                 <div class="hero-content flex-col lg:flex-row">
-                    <img src={singleDetail?.volumeInfo?.imageLinks?.thumbnail} alt='pic' class="max-w-sm rounded-lg shadow-2xl" />
-                    <div className='ml-0 lg:ml-10'>
-                        <h1 class="text-3xl lg:text-4xl font-bold">{singleDetail?.volumeInfo?.title}</h1>
+                    <img src={singleDetail?.volumeInfo?.imageLinks?.thumbnail} alt='pic' class="w-fit lg:w-96 h-auto rounded-lg lg:mt-20 border-4" />
+                    <div className='ml-0 lg:ml-10 w-screen lg:w-full px-10'>
+                        <h1 class="text-2xl lg:text-4xl font-bold">{singleDetail?.volumeInfo?.title}</h1>
                         <div>
                             <p class="py-6">{!expand && singleDetail?.volumeInfo?.description?.slice(0, 500) + '...'} {!expand && <button className='font-semibold text-primary' onClick={() => setExpand(true)}>read more</button>}
                                 {expand && singleDetail?.volumeInfo?.description} {expand && <button className='font-semibold text-primary' onClick={() => setExpand(false)}>read less</button>}</p>
@@ -36,7 +44,7 @@ const Details = () => {
                             <p className='pb-1'><span className='font-bold'>Subtitle:</span> {singleDetail?.volumeInfo?.subtitle}</p>
                             <p className='pb-1'><span className='font-bold'>Authors:</span> {singleDetail?.volumeInfo?.authors}</p>
                             <p className='pb-1'><span className='font-bold'>PublishedDate:</span> {singleDetail?.volumeInfo?.publishedDate}</p>
-                            <p className='pb-1'><span className='font-bold'>selfLink:</span> {singleDetail?.selfLink}</p>
+                            <p className='pb-1'><span className='font-bold w-25'>selfLink:</span> <span>{singleDetail?.selfLink}</span></p>
                             <p className='pb-1'><span className='font-bold'>PageCount:</span> {singleDetail?.volumeInfo?.pageCount}</p>
                             <p className='pb-1'><span className='font-bold'>PrintedPageCount:</span> {singleDetail?.volumeInfo?.pageCount}</p>
                             <p className='pb-1'><span className='font-bold'>Dimensions:</span> <span>Height: {singleDetail?.volumeInfo?.dimensions?.height}</span> <span>Width: {singleDetail?.volumeInfo?.dimensions?.width}</span> <span>Thickness: {singleDetail?.volumeInfo?.dimensions?.thickness}</span></p>
