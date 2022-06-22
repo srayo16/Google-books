@@ -1,6 +1,7 @@
 import React from 'react';
 
 const AllHistoryTable = ({ history, index }) => {
+    console.log(history)
     return (
         <>
             <tr>

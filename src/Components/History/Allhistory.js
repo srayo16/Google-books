@@ -10,11 +10,8 @@ const Allhistory = () => {
 
     useEffect(() => {
         setLoading(true);
-        fetch("http://localhost:5000/data", {
-            method: "GET",
-            headers: {
-                "content-type": "application/json"
-            }
+        fetch("https://damp-brushlands-74302.herokuapp.com/alldata", {
+            method: "GET"
         })
             .then(res => res.json())
             .then(data => {
@@ -29,8 +26,8 @@ const Allhistory = () => {
     return (
         <div className='container mx-auto h-screen'>
             <h1 className='text-neutral text-3xl  lg:text-4xl text-center font-bold my-5'>All History</h1>
-            <div class="overflow-x-auto">
-                <table class="table w-full table-normal">
+            <div className="overflow-x-auto">
+                <table className="table w-full table-normal">
 
                     <thead>
                         <tr>

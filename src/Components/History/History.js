@@ -9,7 +9,7 @@ const History = () => {
     const [histories, setHistories] = useState([]);
 
     useEffect(() => {
-        fetch(`http://localhost:5000/data?email=${user?.email}`, {
+        fetch(`https://damp-brushlands-74302.herokuapp.com/data?email=${user?.email}`, {
             method: "GET",
             headers: {
                 "content-type": "application/json"
@@ -27,8 +27,8 @@ const History = () => {
         <div className='container mx-auto h-screen'>
             <h1 className='text-neutral text-3xl  lg:text-4xl text-center font-bold my-5'>Here your history</h1>
             <h4 className='text-red-500 text-xl text-center font-bold my-5'>Your email: {user?.displayName}</h4>
-            <div class="overflow-x-auto">
-                <table class="table w-full table-normal">
+            <div className="overflow-x-auto">
+                <table className="table w-full table-normal">
 
                     <thead>
                         <tr>

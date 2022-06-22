@@ -31,14 +31,14 @@ const Details = () => {
 
     return (
         <div className='mt-5 container mx-auto overflow-hidden mb-44'>
-            <button class="btn btn-link text-primary-content" onClick={() => returnPage()}><BiArrowBack></BiArrowBack> Back</button>
-            <div class="hero my-h-screen bg-base-100">
-                <div class="hero-content flex-col lg:flex-row">
-                    <img src={singleDetail?.volumeInfo?.imageLinks?.thumbnail} alt='pic' class="w-fit lg:w-96 h-auto rounded-lg lg:mt-20 border-4" />
+            <button className="btn btn-link text-primary-content" onClick={() => returnPage()}><BiArrowBack></BiArrowBack> Back</button>
+            <div className="hero my-h-screen bg-base-100">
+                <div className="hero-content flex-col lg:flex-row">
+                    <img src={singleDetail?.volumeInfo?.imageLinks?.thumbnail} alt='pic' className="w-fit lg:w-96 h-auto rounded-lg lg:mt-20 border-4" />
                     <div className='ml-0 lg:ml-10 w-screen lg:w-full px-10'>
-                        <h1 class="text-2xl lg:text-4xl font-bold">{singleDetail?.volumeInfo?.title}</h1>
+                        <h1 className="text-2xl lg:text-4xl font-bold">{singleDetail?.volumeInfo?.title}</h1>
                         <div>
-                            <p class="py-6">{!expand && singleDetail?.volumeInfo?.description?.slice(0, 500) + '...'} {!expand && <button className='font-semibold text-primary' onClick={() => setExpand(true)}>read more</button>}
+                            <p className="py-6">{!expand && singleDetail?.volumeInfo?.description?.slice(0, 500) + '...'} {!expand && <button className='font-semibold text-primary' onClick={() => setExpand(true)}>read more</button>}
                                 {expand && singleDetail?.volumeInfo?.description} {expand && <button className='font-semibold text-primary' onClick={() => setExpand(false)}>read less</button>}</p>
                             <p className='pb-1'><span className='font-bold'>Id:</span> {singleDetail?.id}</p>
                             <p className='pb-1'><span className='font-bold'>Subtitle:</span> {singleDetail?.volumeInfo?.subtitle}</p>
