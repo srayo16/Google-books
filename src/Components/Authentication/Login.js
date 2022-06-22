@@ -94,6 +94,7 @@ const Login = () => {
                                         <button class="btn">Log In</button>
                                     </div>
                                 </form>
+                                <div class="divider">OR</div>
                                 <div class="form-control mt-2">
                                     <button type='submit' onClick={() => signInWithGoogle()} class="btn btn-outline">Continue with Google</button>
                                 </div>

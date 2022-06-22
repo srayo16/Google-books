@@ -82,6 +82,7 @@ const Signup = () => {
                                     <button type='submit' class="btn">Sign Up</button>
                                 </div>
                             </form>
+                            <div class="divider">OR</div>
                             <div class="form-control mt-2">
                                 <button type='submit' onClick={() => signInWithGoogle()} class="btn btn-outline">Continue with Google</button>
                             </div>
