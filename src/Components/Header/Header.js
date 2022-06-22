@@ -23,6 +23,15 @@ const Header = () => {
         }
         {
             user &&
+            <li><Link to='/history'>History</Link></li>
+        }
+
+        <li><Link to='/about'>About us</Link></li>
+        <li><Link to='/allhistory'>Histories</Link></li>
+        <li><Link to='/contact'>Contact</Link></li>
+
+        {
+            user &&
             <button onClick={logout} class="btn btn-ghost normal-case">Log out</button>
         }
         {
