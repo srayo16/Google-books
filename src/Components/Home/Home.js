@@ -5,6 +5,7 @@ import Banner from './Banner';
 const Home = () => {
     return (
         <>
+            {/* This is home page's components */}
             <Banner></Banner>
             <Signup></Signup>
         </>

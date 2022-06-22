@@ -1,10 +1,32 @@
+import { signOut } from 'firebase/auth';
 import React from 'react';
+import { useAuthState } from 'react-firebase-hooks/auth';
 import { Link } from 'react-router-dom';
+import auth from '../../Firebase.init';
+import Loading from '../Loading/Loading';
+import { toast } from 'react-toastify';
 
 const Header = () => {
+    const [user, loading] = useAuthState(auth);
+    if (loading) {
+        return <Loading></Loading>
+    }
+    const logout = () => {
+        signOut(auth);
+        toast.success('Log out successful')
+    };
     const items = <>
         <li><Link to='/home'>Home</Link></li>
         <li><Link to='/'>Item 1</Link></li>
+        {
+            user &&
+            <button onClick={logout} class="btn btn-ghost normal-case">Log out</button>
+        }
+        {
+            user &&
+            <p className="btn btn-ghost normal-case text-xl">{user.displayName}</p>
+        }
+
     </>
     return (
         <div className='bg-neutral'>
