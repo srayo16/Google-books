@@ -1,8 +1,63 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import { async } from '@firebase/util';
+import React, { useRef } from 'react';
+import { useSendPasswordResetEmail, useSignInWithEmailAndPassword, useSignInWithGoogle } from 'react-firebase-hooks/auth';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import auth from '../../Firebase.init';
 import Banner from '../Home/Banner';
+import { toast } from 'react-toastify';
+import Loading from '../Loading/Loading';
 
 const Login = () => {
+    const [
+        signInWithEmailAndPassword,
+        user,
+        loading,
+        error,
+    ] = useSignInWithEmailAndPassword(auth);
+    const [signInWithGoogle, user2, loading2, error2] = useSignInWithGoogle(auth);
+    const [sendPasswordResetEmail, sending, error3] = useSendPasswordResetEmail(auth);
+    const email = useRef('');
+    const navigate = useNavigate();
+    let location = useLocation();
+    let from = location.state?.from?.pathname || "/";
+
+    if (user || user2) {
+        navigate(from, { replace: true });
+        toast.success('Log in successful');
+
+    }
+
+    if (loading || loading2 || sending) {
+        return <Loading></Loading>
+    }
+
+    let errorMessage;
+    if (error || error2 || error3) {
+        errorMessage = <p className='text-red-500'><small>{error?.message || error2?.message || error3?.message}</small></p>
+    }
+
+    const logSub = async event => {
+        event.preventDefault();
+
+        const email = event.target.email.value;
+        const password = event.target.password.value;
+
+        await signInWithEmailAndPassword(email, password);
+    }
+
+    const forgotPass = async () => {
+
+        const mail = email.current.value;;
+
+        if (mail && !error2) {
+            await sendPasswordResetEmail(mail);
+            toast.success('Sent email');
+        }
+        else {
+            toast.error('Email field empty!');
+        }
+    }
+
     return (
         <>
             <Banner></Banner>
@@ -15,23 +70,32 @@ const Login = () => {
                         </div>
                         <div class="card flex-shrink-0 w-full max-w-sm shadow-2xl bg-base-100">
                             <div class="card-body">
-                                <div class="form-control">
-                                    <label class="label">
-                                        <span class="label-text">Email</span>
-                                    </label>
-                                    <input type="text" placeholder="email" class="input input-bordered" />
-                                </div>
-                                <div class="form-control">
-                                    <label class="label">
-                                        <span class="label-text">Password</span>
-                                    </label>
-                                    <input type="text" placeholder="password" class="input input-bordered" />
-                                    <label class="label">
-                                        <Link to='/' class="label-text-alt link link-hover">Don't have an account? Click here to signup</Link>
-                                    </label>
-                                </div>
-                                <div class="form-control mt-6">
-                                    <button class="btn">Log In</button>
+                                <form onSubmit={logSub}>
+                                    <div class="form-control">
+                                        <label class="label">
+                                            <span class="label-text">Email</span>
+                                        </label>
+                                        <input type="text" ref={email} name='email' required placeholder="email" class="input input-bordered" />
+                                    </div>
+                                    <div class="form-control">
+                                        <label class="label">
+                                            <span class="label-text">Password</span>
+                                        </label>
+                                        <input type="password" placeholder="password" name='password' required class="input input-bordered" />
+                                        <label class="label">
+                                            <p class="label-text-alt text-neutral font-semibold">Already have an account? <Link to='/' class="label-text-alt link text-neutral link-hover font-semibold">Click here to Signup</Link> </p>
+                                        </label>
+                                        <label class="label">
+                                            <p onClick={() => forgotPass()} class="label-text-alt text-neutral link-hover link font-semibold">Forgot password?</p>
+                                        </label>
+                                        {errorMessage}
+                                    </div>
+                                    <div class="form-control mt-6">
+                                        <button class="btn">Log In</button>
+                                    </div>
+                                </form>
+                                <div class="form-control mt-2">
+                                    <button type='submit' onClick={() => signInWithGoogle()} class="btn btn-outline">Continue with Google</button>
                                 </div>
                             </div>
                         </div>

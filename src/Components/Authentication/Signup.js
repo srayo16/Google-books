@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { useCreateUserWithEmailAndPassword, useSendEmailVerification, useUpdateProfile } from 'react-firebase-hooks/auth';
+import { useCreateUserWithEmailAndPassword, useSendEmailVerification, useSignInWithGoogle, useUpdateProfile } from 'react-firebase-hooks/auth';
 import auth from '../../Firebase.init'
 import Loading from '../Loading/Loading';
 import { useNavigate, useLocation } from 'react-router-dom';
@@ -13,6 +13,7 @@ const Signup = () => {
         loading,
         error,
     ] = useCreateUserWithEmailAndPassword(auth);
+    const [signInWithGoogle, user2, loading2, error4] = useSignInWithGoogle(auth);
     const [updateProfile, updating, error2] = useUpdateProfile(auth);
     const [sendEmailVerification, sending1, error3] = useSendEmailVerification(auth);
     let navigate = useNavigate();
@@ -20,16 +21,16 @@ const Signup = () => {
     let from = location.state?.from?.pathname || "/";
     let errorMessage;
 
-    if (error || error2 || error3) {
-        errorMessage = <p className='text-red-500'>{error?.message}</p>
+    if (error || error2 || error3 || error4) {
+        errorMessage = <p className='text-red-500 font-semibold text-sm'>{error?.message || error2?.message || error3?.message || error4?.message}</p>
     }
-    if (loading || updating || sending1) {
+    if (loading || updating || sending1 || loading2) {
         return <Loading></Loading>
     }
 
-    if (user) {
+    if (user || user2) {
         navigate(from, { replace: true });
-        toast.success("Logged in successful")
+        toast.success("Signup successful")
     }
     const signupSubmit = async event => {
         event.preventDefault();
@@ -76,11 +77,14 @@ const Signup = () => {
                                         <p className='label-text-alt'>Already have an account? <Link to='/login' class="label-text-alt link text-neutral link-hover font-semibold">Click here to Login</Link></p>
                                     </label>
                                 </div>
+                                {errorMessage}
                                 <div class="form-control mt-6">
                                     <button type='submit' class="btn">Sign Up</button>
                                 </div>
                             </form>
-                            {errorMessage}
+                            <div class="form-control mt-2">
+                                <button type='submit' onClick={() => signInWithGoogle()} class="btn btn-outline">Continue with Google</button>
+                            </div>
                         </div>
                     </div>
                 </div>
