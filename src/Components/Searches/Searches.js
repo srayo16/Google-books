@@ -1,12 +1,18 @@
 import React, { useState } from 'react';
 import Loading from '../Loading/Loading';
 import Search from './Search';
+import { toast } from 'react-toastify';
+import { useAuthState } from 'react-firebase-hooks/auth';
+import auth from '../../Firebase.init';
 
 const Searches = () => {
     const [books, setBooks] = useState([]);
     const [isloading, setIsloading] = useState(false);
+    const [user, loading] = useAuthState(auth);
+    // console.log(user?.email);
     // console.log(books);
-    if (isloading) {
+
+    if (isloading || loading) {
         return <Loading></Loading>
     }
 
@@ -15,11 +21,27 @@ const Searches = () => {
         setIsloading(true);
 
         const searched = event.target.search.value;
+        const email = user?.email;
+        const searchQuery = { searched, email };
         fetch(`https://www.googleapis.com/books/v1/volumes?q=${searched}`)
             .then(res => res.json())
             .then(data => {
                 setBooks(data.items);
                 setIsloading(false);
+            })
+
+        fetch('http://localhost:5000/data', {
+            method: "POST",
+            headers: {
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify(searchQuery)
+        })
+            .then(res => res.json())
+            .then(data => {
+                if (data.acknowledged) {
+                    toast.success('Your query has been recorded')
+                }
             })
 
         event.target.reset();
